@@ -12,31 +12,35 @@ function dr_repm_add_property_location_field(int $property_id, object $property)
 
 //        Property Location Block
         {
-            if (isset($_POST['properties_holding_or_street_num']) && $_POST['properties_holding_or_street_num'] != ''){
+            if (isset($_POST['properties_holding_or_street_num']) ){
                 update_post_meta($property_id, 'holding_or_street_num', $_POST['properties_holding_or_street_num']);
             }
 
-            if (isset($_POST['properties_street_holding']) && $_POST['properties_street_holding'] != ''){
+            if (isset($_POST['properties_street_holding']) ){
                 update_post_meta($property_id, 'holding_or_street', $_POST['properties_street_holding']);
             }
 
-            if (isset($_POST['properties_thana_upozilla']) && $_POST['properties_thana_upozilla'] != ''){
+            if (isset($_POST['properties_thana_upozilla']) ){
                 update_post_meta($property_id, 'thana_upozilla', $_POST['properties_thana_upozilla']);
             }
 
 
 
-            if (isset($_POST['properties_district']) && $_POST['properties_district'] != ''){
+            if (isset($_POST['properties_district']) ){
                 update_post_meta($property_id, 'district', $_POST['properties_district']);
             }
 
+            if (isset($_POST['properties_state']) ){
+                update_post_meta($property_id, 'state', $_POST['properties_state']);
+            }
 
 
-            if (isset($_POST['properties_post_code']) && $_POST['properties_post_code'] != ''){
+
+            if (isset($_POST['properties_post_code']) ){
                 update_post_meta($property_id, 'post_code', $_POST['properties_post_code']);
             }
 
-            if (isset($_POST['properties_country']) && $_POST['properties_country'] != ''){
+            if (isset($_POST['properties_country']) ){
                 update_post_meta($property_id, 'country', $_POST['properties_country']);
             }
 

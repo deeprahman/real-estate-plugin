@@ -1,77 +1,94 @@
-jQuery(document).ready(function($){
+jQuery(document).ready(function ($) {
 
-    var map;
-    var marker;
-    var myLatlng = new google.maps.LatLng(37.4224764,-122.0842499);
-    var geocoder = new google.maps.Geocoder();
-    var infowindow = new google.maps.InfoWindow();
-    function initialize(){
-        var mapOptions = {
-            zoom: 18,
-            center: myLatlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+    $("#submit").on('click', function () {
+        // document.getElementById('mapid').innerHTML = "<div id='theMap' style='width: 100%; height: 100%;'></div>";
+        $("#mapid").html("<div id='theMap' style='width: 100%; height: 100%;'></div>");
+        var latitude;
+        var longitude;
+
+        var street_no = $("#street-no").val();
+        var road = $("#road").val();
+        var village = $('#village').val();
+        var city = $('#city').val()
+        var country = $("#country").val();
+        var postalcode = $("#post").val();
+
+
+        var address = {
+            road: road,
+            country: country,
+            city: city,
+            village: village,
+            postalcode: postalcode,
+            street: street_no
+
         };
+        var rawData = $.get('https://nominatim.openstreetmap.org/?format=json&addressdetails=1&format=json&limit=1', address, function (data) {
+            console.log(data)
+            latitude = data[0].lat;
+            longitude = data[0].lon;
+            console.log(data[0]);
+            console.log("Latitude: " + latitude + " Longitude: " + longitude);
 
-        map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
+            var mymap = L.map('theMap').setView([latitude, longitude], 15);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+                maxZoom: 20
 
-        marker = new google.maps.Marker({
-            map: map,
-            position: myLatlng,
-            draggable: true
-        });
+            }).addTo(mymap);
 
-
-//Need an effictive API KEY
-        geocoder.geocode({'latLng': myLatlng }, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                if (results[0]) {
-                    $('#latitude,#longitude').show();
-                    $('#address').val(results[0].formatted_address);
-                    $('#latitude').val(marker.getPosition().lat());
-                    $('#longitude').val(marker.getPosition().lng());
-
-                    $('#street_num').val(results[0].address_components[0].long_name); //Street Number
-                    $('#route').val(results[0].address_components[1].long_name); //Street Name
-                    $('#locality').val(results[0].address_components[2].long_name); //Street Name
-                    $('#admin-area-1').val(results[0].address_components[4].long_name); //District
-                    $('#country').val(results[0].address_components[5].long_name); //country
-                    $('#post-code').val(results[0].address_components[6].long_name); //post code
+            var marker = L.marker([latitude, longitude], {draggable: true}).addTo(mymap);
 
 
+            // marker Drag
+            marker.on('dragend', function (event) {
+                var marker = event.target;
+                var result = marker.getLatLng();
+                var lat = result.lat; //Latitude of the current marker postition
+                var lng = result.lng; //Lnogitude of the current market postition
+                var latLgn = {
+                    format: "jsonv2",
+                    lat: lat,
+                    lon: lng
+                };
 
-                    infowindow.setContent(results[0].formatted_address);
-                    infowindow.open(map, marker);
-                    console.log(results[0]);
-                }
-            }
-        });
+                var revGeoCode = $.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2', latLgn, function (data) {
 
-        google.maps.event.addListener(marker, 'dragend', function() {
+                    myAdd = data.address;
+                    console.log(myAdd);
 
-            geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {    //Need an effictive API KEY
-                if (status == google.maps.GeocoderStatus.OK) {
-                    if (results[0]) {
-                        $('#address').val(results[0].formatted_address);
-                        $('#latitude').val(marker.getPosition().lat());
-                        $('#longitude').val(marker.getPosition().lng());
-
-
-                        $('#street_num').val(results[0].address_components[0].long_name); //Street Number
-                        $('#route').val(results[0].address_components[1].long_name); //Street Name
-                        $('#locality').val(results[0].address_components[2].long_name); //Street Name
-                        $('#admin-area-1').val(results[0].address_components[4].long_name); //District
-                        $('#country').val(results[0].address_components[5].long_name); //country
-                        $('#post-code').val(results[0].address_components[6].long_name); //post code
+                    let country = myAdd.country;
+                    console.log(country);
+                    $("#country").val(country);
 
 
+                    let city = myAdd.city;
+                    console.log(city);
+                    $("#city").val(city);
 
-                        infowindow.setContent(results[0].formatted_address);
-                        infowindow.open(map, marker);
-                    }
-                }
+                    let postcode = myAdd.postcode;
+                    console.log(postcode);
+                    $("#post").val(postcode);
+
+                    let road = myAdd.road;
+                    console.log(road);
+                    $('#street-no').val(road);
+
+                    let neighbourhood = myAdd.neighbourhood;
+                    console.log(neighbourhood);
+                    $("#village").val(neighbourhood);
+
+                    let state = myAdd.state;
+                    console.log(state);
+                    $("#state").val(state);
+
+
+                });
+
             });
-        });
 
-    }
-    google.maps.event.addDomListener(window, 'load', initialize);
+        });
+    });
+
+
 });

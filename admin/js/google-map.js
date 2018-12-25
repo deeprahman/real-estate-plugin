@@ -9,9 +9,9 @@ jQuery(document).ready(function ($) {
 
         var road = $("#road").val();
         var village = $('#village').val();
-        var city = $('#city').val()
+        var city = $('#city').val();
         var country = $("#country").val();
-        var postalcode = $("#post").val();
+        var postalcode = $("#post-code").val();
 
 
         var address = {
@@ -32,7 +32,7 @@ jQuery(document).ready(function ($) {
             console.log("Latitude: " + latitude + " Longitude: " + longitude);
 
             // Adding Map
-            var mymap = L.map('theMap').setView([latitude, longitude], 12);
+            var mymap = L.map('theMap').setView([latitude, longitude], 14);
 
             // Adding BaseLayer and Attribution to Map
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -76,7 +76,7 @@ jQuery(document).ready(function ($) {
                     $("#post-code").val(postcode);
 
                     let road = myAdd.road;
-                    console.log(road);
+
                     $('#road').val(road);
 
                     let neighbourhood = myAdd.neighbourhood;

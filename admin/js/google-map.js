@@ -50,6 +50,11 @@ jQuery(document).ready(function ($) {
                 var result = marker.getLatLng();
                 var lat = result.lat; //Latitude of the current marker postition
                 var lng = result.lng; //Lnogitude of the current market postition
+
+                $("#latitude").val(lat);
+                $("#longitude").val(lng);
+
+
                 var latLgn = {
                     format: "jsonv2",
                     lat: lat,
@@ -86,6 +91,7 @@ jQuery(document).ready(function ($) {
                     let state = myAdd.state;
 
                     $("#state").val(state);
+
 
 
                 });

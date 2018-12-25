@@ -42,6 +42,13 @@ function dr_repm_add_property_location_field(int $property_id, object $property)
                 update_post_meta($property_id, 'country', $_POST['properties_country']);
             }
 
+            if (isset($_POST['properties_latitude']) ){
+                update_post_meta($property_id, 'latitude', $_POST['properties_latitude']);
+            }
+            if (isset($_POST['properties_longitude']) ){
+                update_post_meta($property_id, 'longitude', $_POST['properties_longitude']);
+            }
+
 
         }
 

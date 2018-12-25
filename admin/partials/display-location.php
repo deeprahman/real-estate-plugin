@@ -4,7 +4,7 @@
 //Display the Location Meta Box using a callback function
 function dr_repm_display_location_meta_box(object $post): void
 {
-    $holding = esc_html(get_post_meta($post->ID, 'holding_or_street_num',true));
+
     $holding_no = esc_html(get_post_meta($post->ID, 'holding_or_street', true));
     $thana_upozilla = esc_html(get_post_meta($post->ID, 'thana_upozilla', true));
 
@@ -20,12 +20,7 @@ function dr_repm_display_location_meta_box(object $post): void
                 <div id="property-location" >
 
                     <table class="location-table">
-                        <tr>
-                            <td>Street/Holding No.:</td>
-                            <td>
-                                <input type="text" size="30" id="street-no" name="properties_holding_or_street_num" value="<?= $holding ?>">
-                            </td>
-                        </tr>
+
                         <tr>
                             <td>Street Name:</td>
                             <td>
@@ -61,7 +56,7 @@ function dr_repm_display_location_meta_box(object $post): void
                         <tr>
                             <td>Post Code:</td>
                             <td>
-                                <input type="text" id="post" size="30" name="properties_post_code" value="<?= $post_code ?>">
+                                <input type="text" id="post-code" size="30" name="properties_post_code" value="<?= $post_code ?>">
                             </td>
                         </tr>
                         <tr>

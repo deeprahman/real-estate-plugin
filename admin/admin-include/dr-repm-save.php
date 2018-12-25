@@ -12,9 +12,7 @@ function dr_repm_add_property_location_field(int $property_id, object $property)
 
 //        Property Location Block
         {
-            if (isset($_POST['properties_holding_or_street_num']) ){
-                update_post_meta($property_id, 'holding_or_street_num', $_POST['properties_holding_or_street_num']);
-            }
+
 
             if (isset($_POST['properties_street_holding']) ){
                 update_post_meta($property_id, 'holding_or_street', $_POST['properties_street_holding']);
